@@ -1,4 +1,7 @@
+import os
 from ansible.parsing.dataloader import DataLoader
+from ansible.module_utils._text import to_bytes
+from ansible.parsing.vault import VaultSecret
 from ansible.inventory.manager import InventoryManager
 from ansible.vars.manager import VariableManager
 
@@ -18,6 +21,9 @@ class AnsibleViaAPI(Ansible):
     def load_inventories(self):
         """Load host inventories using the Ansible Python API."""
         loader = DataLoader()
+        vault_pass = os.environ.get("ANSIBLE_VAULT_PASSWORD", "")
+        if vault_pass:
+            loader.set_vault_secrets([('default', VaultSecret(_bytes=to_bytes(vault_pass)))])
         inventory = InventoryManager(loader=loader, sources=self.inventory_paths)
         variable_manager = VariableManager(loader=loader, inventory=inventory)
 
