@@ -44,6 +44,10 @@ class AnsibleViaAPI(Ansible):
 
         for host in inventory.get_hosts():
             vars = variable_manager.get_vars(host=host)
+
+            if not self.keep_ansible_vars:
+                ansible_vars = [key for key in vars if key.startswith("ansible_")]
+                ignore = ignore + ansible_vars
             for key in ignore:
                 vars.pop(key, None)
 

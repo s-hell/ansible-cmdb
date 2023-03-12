@@ -161,6 +161,8 @@ if __name__ == "__main__":
     parser.add_option("--exclude-cols", dest="exclude_columns", action="store", default=None, help="Exclude cols from output")
     parser.add_option("--use-ansible-api", dest="use_ansible_api", action="store_true", default=False,
                       help="Use the Ansible python API to read the inventory files")
+    parser.add_option("--keep-ansible-vars", dest="keep_ansible_vars", action="store_true", default=False,
+                      help="Keep variables that start with 'ansible_' from custom variables (requires '--use-ansible-api')")
 
     (options, args) = parser.parse_args()
 
@@ -206,7 +208,9 @@ if __name__ == "__main__":
     if options.use_ansible_api:
         ansible = ansiblecmdb.AnsibleViaAPI(args, hosts_files, options.fact_cache,
                                             use_ansible_api=options.use_ansible_api,
-                                            limit=options.limit, debug=options.debug)
+                                            limit=options.limit,
+                                            keep_ansible_vars=options.keep_ansible_vars,
+                                            debug=options.debug)
     else:
         ansible = ansiblecmdb.Ansible(args, hosts_files, options.fact_cache,
                                       limit=options.limit, debug=options.debug)
