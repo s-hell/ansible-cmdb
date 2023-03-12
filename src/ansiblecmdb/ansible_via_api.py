@@ -38,10 +38,9 @@ class AnsibleViaAPI(Ansible):
         # we do the simplest thing that can work.
         if self.limit:
             inventory.subset(self.limit)
-            limited_hosts = inventory.get_hosts()
-            for h in self.hosts.keys():
-                if h not in limited_hosts:
-                    del self.hosts[h]
+            limited_hosts = [str(host) for host in inventory.get_hosts()]
+            filtered_hosts = { key: self.hosts[key] for key in limited_hosts } 
+            self.hosts = filtered_hosts
 
         for host in inventory.get_hosts():
             vars = variable_manager.get_vars(host=host)
