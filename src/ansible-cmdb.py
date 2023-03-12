@@ -165,6 +165,8 @@ if __name__ == "__main__":
                       help="Keep variables that start with 'ansible_' from custom variables (requires '--use-ansible-api')")
     parser.add_option("--keep-services-var", dest="keep_services_var", action="store_true", default=False,
                       help="Keep 'services' variable that is filled by `service_facts` module (requires '--use-ansible-api')")
+    parser.add_option("--keep-vault-vars", dest="keep_vault_vars", action="store_true", default=False,
+                      help="Keep variables that start with 'vault_' from custom variables (requires '--use-ansible-api')")
 
     (options, args) = parser.parse_args()
 
@@ -213,6 +215,7 @@ if __name__ == "__main__":
                                             limit=options.limit,
                                             keep_ansible_vars=options.keep_ansible_vars,
                                             keep_services_var=options.keep_services_var,
+                                            keep_vault_vars=options.keep_vault_vars,
                                             debug=options.debug)
     else:
         ansible = ansiblecmdb.Ansible(args, hosts_files, options.fact_cache,

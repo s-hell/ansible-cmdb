@@ -56,6 +56,9 @@ class AnsibleViaAPI(Ansible):
                 ignore = ignore + ansible_vars
             if not self.keep_services_var:
                 ignore.append('services')
+            if not self.keep_vault_vars:
+                vault_vars = [key for key in vars if key.startswith("vault_")]
+                ignore = ignore + vault_vars
             for key in ignore:
                 vars.pop(key, None)
 

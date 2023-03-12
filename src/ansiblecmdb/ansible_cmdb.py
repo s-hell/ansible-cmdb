@@ -27,17 +27,17 @@ class Ansible(object):
     """
     def __init__(self, fact_dirs, inventory_paths=None, fact_cache=False,
                  use_ansible_api=False, limit=None, keep_ansible_vars=False,
-                 keep_services_var=False, debug=False):
+                 keep_services_var=False, keep_vault_vars=False, debug=False):
         """
         `fact_dirs` is a list of paths to directories containing facts gathered
-         by ansible's 'setup' module.
+        by ansible's 'setup' module.
 
-         `inventory_paths` is a list with files or directories containing the
-         inventory. It will be scanned to extract groups, variables and
-         additional facts. If entries point to a file, it's read as a
-         hosts file. If it's a directory, it is scanned for hosts files and
-         dynamic inventory scripts.
-         """
+        `inventory_paths` is a list with files or directories containing the
+        inventory. It will be scanned to extract groups, variables and
+        additional facts. If entries point to a file, it's read as a
+        hosts file. If it's a directory, it is scanned for hosts files and
+        dynamic inventory scripts.
+        """
         self.fact_dirs = fact_dirs
         if inventory_paths is None:
             self.inventory_paths = []
@@ -48,6 +48,7 @@ class Ansible(object):
         self.limit = limit if use_ansible_api else self._parse_limit(limit)
         self.keep_ansible_vars = keep_ansible_vars
         self.keep_services_var = keep_services_var
+        self.keep_vault_vars = keep_vault_vars
         self.debug = debug
         self.hosts = {}
         self.log = logging.getLogger(__name__)
