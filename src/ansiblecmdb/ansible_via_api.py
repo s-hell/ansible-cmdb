@@ -48,6 +48,8 @@ class AnsibleViaAPI(Ansible):
             if not self.keep_ansible_vars:
                 ansible_vars = [key for key in vars if key.startswith("ansible_")]
                 ignore = ignore + ansible_vars
+            if not self.keep_services_var:
+                ignore.append('services')
             for key in ignore:
                 vars.pop(key, None)
 

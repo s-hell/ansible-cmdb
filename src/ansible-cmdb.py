@@ -163,6 +163,8 @@ if __name__ == "__main__":
                       help="Use the Ansible python API to read the inventory files")
     parser.add_option("--keep-ansible-vars", dest="keep_ansible_vars", action="store_true", default=False,
                       help="Keep variables that start with 'ansible_' from custom variables (requires '--use-ansible-api')")
+    parser.add_option("--keep-services-var", dest="keep_services_var", action="store_true", default=False,
+                      help="Keep 'services' variable that is filled by `service_facts` module (requires '--use-ansible-api')")
 
     (options, args) = parser.parse_args()
 
@@ -210,6 +212,7 @@ if __name__ == "__main__":
                                             use_ansible_api=options.use_ansible_api,
                                             limit=options.limit,
                                             keep_ansible_vars=options.keep_ansible_vars,
+                                            keep_services_var=options.keep_services_var,
                                             debug=options.debug)
     else:
         ansible = ansiblecmdb.Ansible(args, hosts_files, options.fact_cache,
