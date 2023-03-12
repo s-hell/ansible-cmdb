@@ -26,7 +26,7 @@ class Ansible(object):
     The Ansible class is responsible for gathering host information.
     """
     def __init__(self, fact_dirs, inventory_paths=None, fact_cache=False,
-                 limit=None, debug=False):
+                 use_ansible_api=False, limit=None, debug=False):
         """
         `fact_dirs` is a list of paths to directories containing facts gathered
         by ansible's 'setup' module.
@@ -43,7 +43,8 @@ class Ansible(object):
         else:
             self.inventory_paths = inventory_paths
         self.fact_cache = fact_cache  # fact dirs are fact-caches
-        self.limit = self._parse_limit(limit)
+        self.use_ansible_api = use_ansible_api
+        self.limit = limit if use_ansible_api else self._parse_limit(limit)
         self.debug = debug
         self.hosts = {}
         self.log = logging.getLogger(__name__)

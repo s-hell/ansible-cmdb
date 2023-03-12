@@ -205,6 +205,7 @@ if __name__ == "__main__":
 
     if options.use_ansible_api:
         ansible = ansiblecmdb.AnsibleViaAPI(args, hosts_files, options.fact_cache,
+                                            use_ansible_api=options.use_ansible_api,
                                             limit=options.limit, debug=options.debug)
     else:
         ansible = ansiblecmdb.Ansible(args, hosts_files, options.fact_cache,
