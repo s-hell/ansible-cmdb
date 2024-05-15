@@ -1,5 +1,6 @@
 import os
-import imp
+import importlib.util
+import importlib.machinery
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
@@ -66,6 +67,13 @@ class Render:
                             output_encoding='utf-8')
         return template.render(hosts=hosts, **vars)
 
+    def load_source(self, modname, filename):
+        loader = importlib.machinery.SourceFileLoader(modname, filename)
+        spec = importlib.util.spec_from_file_location(modname, filename, loader=loader)
+        module = importlib.util.module_from_spec(spec)
+        loader.exec_module(module)
+        return module
+
     def _render_py(self, hosts, vars={}):
-        module = imp.load_source('r', self.tpl_file)
+        module = self.load_source('r', self.tpl_file)
         return module.render(hosts, vars=vars, tpl_dirs=self.tpl_dirs)
