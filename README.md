@@ -1,3 +1,9 @@
+FORK INFORMATIONS
+=================
+Applied pull requests from original repository:
+
+* Replace imp [#260](https://github.com/fboender/ansible-cmdb/pull/260)
+
 Ansible Configuration Management Database
 =========================================
 
